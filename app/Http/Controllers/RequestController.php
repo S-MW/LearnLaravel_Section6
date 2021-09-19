@@ -17,6 +17,8 @@ class RequestController extends Controller
         $client = new Client();
         $response = $client->get('http://127.0.0.1:8000/api/ApiTest'); 
         $lists = json_decode($response->getBody()->getContents());
+        $lists = collect($lists);
+        $lists = $lists->sortByDesc('updated_at');
         return view('index',compact('lists'));
     }
 
