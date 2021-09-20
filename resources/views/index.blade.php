@@ -18,6 +18,13 @@
                         <p class="mb-1">Country : {{$list->country}} </p>
                         <small>Age : {{$list->age}} </small>
                     </a>
+                    <div class="col-2">
+                        <form action="/request/{{$list->id}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Danger</button>
+                        </form>
+                    </div>
                 </div>
                 @endforeach
             @else

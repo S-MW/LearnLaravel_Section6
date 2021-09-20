@@ -140,6 +140,14 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $client = new Client();
+            $response = $client->delete( 'http://127.0.0.1:8000/api/ApiTest/' . $id);
+            $s = json_decode($response->getBody()->getContents());
+            return redirect('/')->with('success',': Deleted successfully');
+        }
+        catch (GuzzleException $e) {    
+            return redirect()->back()->withErrors(['errors' => $response]);    
+        } 
     }
 }
