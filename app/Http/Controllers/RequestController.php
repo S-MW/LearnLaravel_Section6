@@ -42,7 +42,7 @@ class RequestController extends Controller
      */
     public function create()
     {
-        return view('show');
+        return view('create');
     }
 
     /**
@@ -68,7 +68,6 @@ class RequestController extends Controller
             return redirect('/')->with('success', $s->info->name .': Adedd successfully');
         }
         catch (GuzzleException $e) {    
-            dd($response);
             return redirect()->back()->withErrors(['errors' => $response]);    
         }     
     }
@@ -80,8 +79,8 @@ class RequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        
+    { 
+        // Allerdy is showen in index blade.
     }
 
     /**
@@ -92,7 +91,18 @@ class RequestController extends Controller
      */
     public function edit($id)
     {
-        dd("d");
+        try{
+            $client = new Client();
+            $response = $client->get('http://127.0.0.1:8000/api/ApiTest/' . $id); 
+            
+            $lists = json_decode($response->getBody()->getContents());
+            
+            return view('edit',compact('lists'));
+            }
+            catch (GuzzleException $e) {
+
+                return redirect()->back()->withErrors(['errors' => $response]);    
+            }
     }
 
     /**
@@ -104,7 +114,22 @@ class RequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd("s");
+        $valadate = $request->validate([
+            "name"=>"required",
+            "age"=>"required",
+            "country"=>"required",
+        ]);
+
+        try{
+            $client = new Client();
+            
+            $response = $client->put( 'http://127.0.0.1:8000/api/ApiTest/' . $id .'?name=' . $valadate['name'] . '&country='.$valadate['country'] . '&age='.$valadate['age']);
+            $s = json_decode($response->getBody()->getContents());
+            return redirect('/')->with('success', $s->data->name .': Updated successfully');
+        }
+        catch (GuzzleException $e) {    
+            return redirect()->back()->withErrors(['errors' => $response]);    
+        } 
     }
 
     /**

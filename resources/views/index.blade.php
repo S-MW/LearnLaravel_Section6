@@ -10,7 +10,7 @@
             @if(count($lists)>0)
                 @foreach($lists as $list)
                 <div class="list-group">
-                    <a href="request/{{$list->id}}" class="list-group-item list-group-item-action">
+                    <a href="request/{{$list->id}}/edit" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{$list->id}} : {{$list->name}}</h5>
                         <small>Last Update:{{ \Carbon\Carbon::parse($list->updated_at)->diffForHumans() }}</small>
