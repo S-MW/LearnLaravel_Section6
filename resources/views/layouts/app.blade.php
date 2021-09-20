@@ -12,7 +12,6 @@
 </head>
 <body>
     @include('inc.navbar')
-    @include('inc.success')
     <div class="container">
         <h1 class="bg-info text-center">@yield('bold_text')</h1>
     @yield('content')
